@@ -4,7 +4,7 @@ int main(){
     int n;
     int *ptr=&n;
     *ptr=0;
-
+    
     printf("n = %d \n",n);
     printf("ptr = %d \n",*ptr);
 
