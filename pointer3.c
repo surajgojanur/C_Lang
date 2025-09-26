@@ -2,8 +2,9 @@
 
 int main(){
 
-    float flt;
-    int *ptr=&flt;
-    *ptr=3.12;
-    printf(flt);
+    //Print 'i' value from it's pointer to pointer
+    int i=1;
+    int *ip=&i;
+    int **ipp=&ip;
+    printf("%d \n",**ipp);
 }
