@@ -69,7 +69,14 @@ void main(void)
 				}
 				elem = pop();
 			}
-		}
+			else
+			{
+				while (precd(s[Top]) >= precd(ch))
+				{
+					postfix[j++] = pop();
+				}
+				push(ch);
+			}
 	}
 	while (s[Top] != '#')
 	{

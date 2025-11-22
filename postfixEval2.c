@@ -38,4 +38,5 @@ void pop(stack* st){
 
 void main(){
     printf("Empty ");
+    char st
 }

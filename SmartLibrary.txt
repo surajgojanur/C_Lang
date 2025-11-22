@@ -1,0 +1,268 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 100
+
+/*---------------------------------------------------------
+    BOOK CATALOG  →  LINKED LIST
+---------------------------------------------------------*/
+typedef struct Book {
+    int book_id;
+    char title[50];
+    int available_copies;
+    struct Book *next;
+} Book;
+
+Book* head = NULL;     // Linked list head pointer
+
+
+Book* createBook(int id, char title[], int copies) {
+    Book* b = (Book*) malloc(sizeof(Book));
+    b->book_id = id;
+    strcpy(b->title, title);
+    b->available_copies = copies;
+    b->next = NULL;
+    return b;
+}
+
+void insertBook(int id, char title[], int copies) {
+    Book* newB = createBook(id, title, copies);
+
+    if (head == NULL) {
+        head = newB;
+        return;
+    }
+    Book* curr = head;
+    while (curr->next != NULL)
+        curr = curr->next;
+
+    curr->next = newB;
+}
+
+Book* searchBook(int id) {
+    Book* curr = head;
+    while (curr != NULL) {
+        if (curr->book_id == id)
+            return curr;
+        curr = curr->next;
+    }
+    return NULL;
+}
+
+void displayBooks() {
+    printf("\n--- BOOK CATALOG ---\n");
+    Book* curr = head;
+    if (curr == NULL) {
+        printf("No books in catalog.\n");
+        return;
+    }
+    while (curr != NULL) {
+        printf("ID: %d | Title: %s | Copies: %d\n",
+               curr->book_id, curr->title, curr->available_copies);
+        curr = curr->next;
+    }
+}
+
+
+/*---------------------------------------------------------
+    ISSUE REQUEST QUEUE  →  LINEAR QUEUE
+---------------------------------------------------------*/
+typedef struct {
+    char student_name[50];
+    int book_id;
+} Request;
+
+Request queue[MAX];
+int front = 0, rear = -1, qcount = 0;
+
+int isFull() { return qcount == MAX; }
+int isEmpty() { return qcount == 0; }
+
+void enqueueRequest(char name[], int book_id) {
+    if (isFull()) {
+        printf("Request Queue Full!\n");
+        return;
+    }
+    rear = (rear + 1) % MAX;
+    strcpy(queue[rear].student_name, name);
+    queue[rear].book_id = book_id;
+    qcount++;
+}
+
+Request dequeueRequest() {
+    Request r = {"", -1};
+    if (isEmpty()) {
+        printf("No Requests.\n");
+        return r;
+    }
+    r = queue[front];
+    front = (front + 1) % MAX;
+    qcount--;
+    return r;
+}
+
+void displayQueue() {
+    printf("\n--- ISSUE REQUEST QUEUE ---\n");
+    if (isEmpty()) {
+        printf("No pending requests.\n");
+        return;
+    }
+    int i = front;
+    for (int c = 0; c < qcount; c++) {
+        printf("Student: %s | Book ID: %d\n",
+               queue[i].student_name, queue[i].book_id);
+        i = (i + 1) % MAX;
+    }
+}
+
+
+/*---------------------------------------------------------
+    USER ACTIVITY STACK  →  STACK
+---------------------------------------------------------*/
+char stack[MAX][100];
+int top = -1;
+
+void pushAction(char action[]) {
+    if (top == MAX - 1) {
+        printf("Stack full.\n");
+        return;
+    }
+    strcpy(stack[++top], action);
+}
+
+void popK(int k) {
+    printf("\n--- UNDO LAST %d ACTIONS ---\n", k);
+    while (k-- > 0 && top >= 0) {
+        printf("%s\n", stack[top--]);
+    }
+}
+
+void displayStack() {
+    printf("\n--- ACTIVITY HISTORY STACK ---\n");
+    if (top == -1) {
+        printf("No actions yet.\n");
+        return;
+    }
+    for (int i = top; i >= 0; i--)
+        printf("%s\n", stack[i]);
+}
+
+
+/*---------------------------------------------------------
+    PROCESS NEXT REQUEST
+---------------------------------------------------------*/
+void processRequest() {
+    Request r = dequeueRequest();
+    if (r.book_id == -1) return;
+
+    Book* b = searchBook(r.book_id);
+    if (b == NULL) {
+        printf("Book not found.\n");
+        pushAction("ISSUE_FAIL UnknownBook");
+        return;
+    }
+
+    if (b->available_copies > 0) {
+        b->available_copies--;
+        printf("Issued book '%s' to %s\n", b->title, r.student_name);
+
+        char log[100];
+        sprintf(log, "ISSUE_SUCCESS %d", r.book_id);
+        pushAction(log);
+    } else {
+        printf("Book Not Available.\n");
+
+        char log[100];
+        sprintf(log, "ISSUE_FAIL %d", r.book_id);
+        pushAction(log);
+    }
+}
+
+
+/*---------------------------------------------------------
+    MAIN MENU
+---------------------------------------------------------*/
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n\n========== SMART LIBRARY ==========\n");
+        printf("1. Add Book\n");
+        printf("2. Search Book\n");
+        printf("3. Request Issue\n");
+        printf("4. Process Next Request\n");
+        printf("5. View All Data Structures\n");
+        printf("6. Undo (Pop K actions)\n");
+        printf("7. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        if (choice == 1) {
+            int id, copies;
+            char title[50];
+            printf("Enter book ID: ");
+            scanf("%d", &id);
+            printf("Enter title: ");
+            scanf(" %[^\n]", title);
+            printf("Enter copies: ");
+            scanf("%d", &copies);
+
+            insertBook(id, title, copies);
+
+            char log[100];
+            sprintf(log, "ADD_BOOK %d", id);
+            pushAction(log);
+
+        } else if (choice == 2) {
+            int id;
+            printf("Enter book ID: ");
+            scanf("%d", &id);
+
+            Book* b = searchBook(id);
+            if (b == NULL)
+                printf("Book not found.\n");
+            else
+                printf("FOUND → %s | Copies: %d\n", b->title, b->available_copies);
+
+        } else if (choice == 3) {
+            int id;
+            char name[50];
+
+            printf("Enter student name: ");
+            scanf(" %[^\n]", name);
+            printf("Enter book ID: ");
+            scanf("%d", &id);
+
+            enqueueRequest(name, id);
+
+            char log[100];
+            sprintf(log, "ISSUE_REQUEST %d", id);
+            pushAction(log);
+
+        } else if (choice == 4) {
+            processRequest();
+
+        } else if (choice == 5) {
+            displayBooks();
+            displayQueue();
+            displayStack();
+
+        } else if (choice == 6) {
+            int k;
+            printf("Enter K: ");
+            scanf("%d", &k);
+            popK(k);
+
+        } else if (choice == 7) {
+            printf("Exiting...\n");
+            break;
+        }
+        else {
+            printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
+

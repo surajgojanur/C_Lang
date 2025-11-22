@@ -1,0 +1,240 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node {
+    int data;
+    struct node *next;
+} *NODE;
+
+typedef struct Deque {
+    NODE front;
+    NODE rear;
+} Deque;
+
+NODE create_node(int info) {
+    NODE new_node = (NODE)malloc(sizeof(struct node));
+    if (new_node == NULL) {
+        printf("\nInsufficient memory\n");
+        return NULL;
+    }
+    new_node->data = info;
+    new_node->next = NULL;
+    return new_node;
+}
+
+void initialize_deque(Deque *dq) {
+    dq->front = NULL;
+    dq->rear = NULL;
+}
+
+int is_empty(Deque *dq) {
+    return (dq->front == NULL);
+}
+
+void insert_front(Deque *dq, int info) {
+    NODE new_node = create_node(info);
+    if (new_node == NULL) return;
+
+    if (is_empty(dq)) {
+        dq->front = dq->rear = new_node;
+    } else {
+        new_node->next = dq->front;
+        dq->front = new_node;
+    }
+    printf("\nElement %d inserted at Front.\n", info);
+}
+
+void insert_rear(Deque *dq, int info) {
+    NODE new_node = create_node(info);
+    if (new_node == NULL) return;
+
+    if (is_empty(dq)) {
+        dq->front = dq->rear = new_node;
+    } else {
+        dq->rear->next = new_node;
+        dq->rear = new_node;
+    }
+    printf("\nElement %d inserted at Rear.\n", info);
+}
+
+int delete_front(Deque *dq) {
+    if (is_empty(dq)) {
+        printf("\nDeque is empty!\n");
+        return -1;
+    }
+
+    NODE temp = dq->front;
+    int item = temp->data;
+    dq->front = dq->front->next;
+
+    if (dq->front == NULL) {
+        dq->rear = NULL;
+    }
+
+    free(temp);
+    printf("\nDeleted %d from Front.\n", item);
+    return item;
+}
+
+int delete_rear(Deque *dq) {
+    if (is_empty(dq)) {
+        printf("\nDeque is empty!\n");
+        return -1;
+    }
+
+    NODE temp = dq->front;
+    int item;
+
+    if (dq->front == dq->rear) {
+        item = temp->data;
+        dq->front = dq->rear = NULL;
+        free(temp);
+        printf("\nDeleted %d from Rear.\n", item);
+        return item;
+    }
+
+    while (temp->next != dq->rear) {
+        temp = temp->next;
+    }
+
+    NODE last = dq->rear;
+    item = last->data;
+
+    temp->next = NULL;
+    dq->rear = temp;
+
+    free(last);
+    printf("\nDeleted %d from Rear.\n", item);
+    return item;
+}
+
+void display_deque(Deque *dq) {
+    if (is_empty(dq)) {
+        printf("\nDeque is empty\n");
+        return;
+    }
+
+    NODE curr = dq->front;
+    printf("\nDeque (Front -> Rear): ");
+    while (curr != NULL) {
+        printf("[%d]", curr->data);
+        if (curr->next != NULL) printf(" -> ");
+        curr = curr->next;
+    }
+    printf("\n");
+}
+
+void input_restricted_deque_menu(Deque *dq) {
+    int choice, element;
+
+    do {
+        printf("\n\n--- Input Restricted Deque ---");
+        printf("\n1. Insert at Rear");
+        printf("\n2. Delete from Front");
+        printf("\n3. Delete from Rear");
+        printf("\n4. Display");
+        printf("\n5. Back");
+        printf("\nEnter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter element: ");
+                scanf("%d", &element);
+                insert_rear(dq, element);
+                break;
+            case 2:
+                delete_front(dq);
+                break;
+            case 3:
+                delete_rear(dq);
+                break;
+            case 4:
+                display_deque(dq);
+                break;
+            case 5:
+                return;
+            default:
+                printf("\nInvalid choice\n");
+        }
+    } while (choice != 5);
+}
+
+void output_restricted_deque_menu(Deque *dq) {
+    int choice, element;
+
+    do {
+        printf("\n\n--- Output Restricted Deque ---");
+        printf("\n1. Insert at Front");
+        printf("\n2. Insert at Rear");
+        printf("\n3. Delete from Front");
+        printf("\n4. Display");
+        printf("\n5. Back");
+        printf("\nEnter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter element: ");
+                scanf("%d", &element);
+                insert_front(dq, element);
+                break;
+            case 2:
+                printf("Enter element: ");
+                scanf("%d", &element);
+                insert_rear(dq, element);
+                break;
+            case 3:
+                delete_front(dq);
+                break;
+            case 4:
+                display_deque(dq);
+                break;
+            case 5:
+                return;
+            default:
+                printf("\nInvalid choice\n");
+        }
+    } while (choice != 5);
+}
+
+int main() {
+    Deque dq;
+    int choice;
+
+    printf("\n*** DEQUE USING SINGLY LINKED LIST ***\n");
+
+    do {
+        initialize_deque(&dq);
+
+        printf("\n--- Main Menu ---");
+        printf("\n1. Input Restricted Deque");
+        printf("\n2. Output Restricted Deque");
+        printf("\n3. Exit");
+        printf("\nEnter choice: ");
+
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid input\n");
+            while (getchar() != '\n');
+            choice = 0;
+            continue;
+        }
+
+        switch (choice) {
+            case 1:
+                input_restricted_deque_menu(&dq);
+                break;
+            case 2:
+                output_restricted_deque_menu(&dq);
+                break;
+            case 3:
+                printf("\nExiting...\n");
+                break;
+            default:
+                printf("\nInvalid choice\n");
+        }
+    } while (choice != 3);
+
+    return 0;
+}
+

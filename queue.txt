@@ -1,0 +1,101 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 100
+
+typedef struct queue {
+    int front, rear;
+    int items[MAX];
+} Queue;
+
+int isEmpty(Queue *q);
+int isFull(Queue *q);
+void insert(Queue *q);
+int remove1(Queue *q);
+void display(Queue *q);
+
+int isEmpty(Queue *q) {
+    return (q->rear == q->front - 1);
+}
+
+int isFull(Queue *q) {
+    return (q->rear == MAX - 1);
+}
+
+void insert(Queue *q) {
+    int ele;
+    if (isFull(q)) {
+        printf("\n\tQUEUE overflow");
+        return;
+    }
+    printf("Enter a value to be inserted: ");
+    scanf("%d",&ele);
+    q->rear++;
+    q->items[q->rear] = ele;
+}
+
+int remove1(Queue *q) {
+    int item;
+    if(isEmpty(q)) {
+        printf("\n\tQUEUE underflow");
+        return 0;
+    }
+    item = q->items[q->front];
+    q->front++;
+    if (q->front > q->rear) {
+        q->front = 0;
+        q->rear = -1;
+    }
+    printf("\n\tDeleted element: %d", item);
+    return item;
+}
+
+void display(Queue *q) {
+    int j;
+    if (isEmpty(q)) {
+        printf("\n\tQUEUE underflow");
+        return;
+    }
+    printf("\nElements in QUEUE:\n");
+    for(j = q->front; j <= q->rear; j++)
+        printf("\t%d", q->items[j]);
+    printf("\n");
+}
+
+int main(void) {
+    int choice, rmItem;
+    Queue q;
+    
+    q.rear = -1; 
+    q.front = 0;
+
+    printf("\n\tQUEUE OPERATIONS USING ARRAY");
+    printf("\n\t--------------------------------");
+    printf("\n\t1. INSERT\n\t2. REMOVE\n\t3. DISPLAY\n\t4. EXIT");
+
+    do { 
+        printf("\nEnter your choice: ");
+        scanf("%d",&choice);
+        
+        switch(choice) {
+            case 1: 
+                insert(&q);
+                display(&q);
+                break;
+            case 2: 
+                rmItem = remove1(&q);
+                display(&q);
+                break;
+            case 3: 
+                display(&q);
+                break;
+            case 4:
+                printf("\n\tExiting...");
+                break;
+            default:
+                printf ("\n\tInvalid choice! Enter 1/2/3/4");
+        }
+    } while(choice != 4);
+    
+    return 0;
+}
+
