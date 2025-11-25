@@ -10,75 +10,112 @@ typedef struct
 }queue;
 
 int isEmpty(queue *q){
-    if(q->rear < q->front){
-        return 1;
-    }
-    else{
-        return 0;
-    }
+    return (q->rear < q->front);
 }
 
 int isFull(queue *q){
-    if(q->rear == MAX -1){
-        return 1;
-    }else{
-        return 0;
-    }
+    return (q->rear == MAX - 1);
 }
 
 void insert(queue *q,int item){
     if(isFull(q)){
-        printf("\nOver flow condition");
+        printf("\nOverflow condition\n");
+        return;
     }
-    q->data[++(q->rear)]=item;
+    q->data[++(q->rear)] = item;
 }
 
-int removeQ(queue *q){
-    int ele=0;
-    for(int i=0;i<3;i++){
+int removeQ(queue q[]){
+    for(int i=0;i<3;i++){   // check from high to low priority
         if(isEmpty(&q[i])){
-            printf("\n UnderFlow condition");
             continue;
         }
-        ele=q[i].data[(q->front)];
-        if(q[i].front==q[i].rear){
-            q[i].front=0;q[i].rear=-1;
-        }else{
+        int ele = q[i].data[q[i].front];
+
+        if(q[i].front == q[i].rear){
+            // reset queue
+            q[i].front = 0;
+            q[i].rear = -1;
+        } else {
             q[i].front++;
         }
+
         return ele;
     }
+    printf("\nUnderflow! All queues empty.\n");
     return -1;
 }
 
-void display(queue *q){
-    printf("queue status\n");
+void display(queue q[]){
+    printf("\n********* Queue Status *********\n");
     for(int i=0;i<3;i++){
-        if(isEmpty(&q[i]))
-            printf("\n Queue %d is empty\n",i);
-            for(int j=q[i].front;j<=q[i].rear;j++){
-                printf("%d | ",q[i].data[j]);
-                printf("\n");
+        printf("\nPriority %d -> ", i);
+        if(isEmpty(&q[i])){
+            printf("EMPTY");
+        } else {
+            for(int j = q[i].front ; j <= q[i].rear; j++){
+                printf("%d ", q[i].data[j]);
             }
+        }
     }
+    printf("\n********************************\n");
 }
 
 int main(void){
-    int rmItem=0;
-    int choice=0;
-    int ele=0;
-    int prior=0;
-    int flag=1;
-    queue q[4];
-    for(int i=0;i<3;i++){
-        q[i].front=0;
-        q[i].rear=-1;
-    }
-    while(flag){
-        printf("***************MENU************\n");
-        printf("1 insert 2 remove 3 exit \n");
-        printf("Enter your choice");
-        scanf("%d",&choice);
+    int choice, ele, prior;
+    int flag = 1;
 
+    queue q[3];
+
+    for(int i=0;i<3;i++){
+        q[i].front = 0;
+        q[i].rear = -1;
     }
+
+    while(flag){
+        printf("\n*************** MENU ***************\n");
+        printf("1. Insert\n");
+        printf("2. Remove\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                printf("Enter priority (0=High, 1=Med, 2=Low): ");
+                scanf("%d", &prior);
+
+                if(prior < 0 || prior > 2){
+                    printf("Invalid priority!\n");
+                    break;
+                }
+
+                printf("Enter element: ");
+                scanf("%d", &ele);
+
+                insert(&q[prior], ele);
+                break;
+
+            case 2:
+                ele = removeQ(q);
+                if(ele != -1)
+                    printf("Removed element = %d\n", ele);
+                break;
+
+            case 3:
+                display(q);
+                break;
+
+            case 4:
+                flag = 0;
+                break;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
 }
