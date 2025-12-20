@@ -1,0 +1,5 @@
+groceries, 45.60
+transport, 12.00
+entertainment, 30.00
+rent, 800.00
+misc, 0.00

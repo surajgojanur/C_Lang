@@ -1,0 +1,256 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║           EL3 - COMPLETE LAB ASSIGNMENT SUBMISSION PACKAGE                 ║
+║                  UQ25CA651A – Programming with Python                      ║
+║              Experiential Learning – II, Unit 3, PES University            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📦 PACKAGE CONTENTS
+═══════════════════
+
+✓ 10 Complete Problem Solutions
+✓ All Input Files (CSV & Excel)
+✓ All Python Scripts (solution.py)
+✓ Individual README.txt per problem
+✓ Input file generators (create_input.py for Excel problems)
+✓ Requirements.txt for dependencies
+✓ Automated test script
+
+📁 FOLDER STRUCTURE
+═══════════════════
+
+EL3/
+│
+├── README.txt                          # Master instructions
+├── requirements.txt                    # Python dependencies
+├── test_all.sh                         # Automated test script
+├── SUBMISSION_GUIDE.txt               # This file
+│
+├── Problem01_Student_Marks/
+│   ├── students.csv                    # Input
+│   ├── solution.py                     # Script
+│   ├── README.txt                      # Instructions
+│   └── student_summary.csv             # Output (generated)
+│
+├── Problem02_Sales_Report/
+│   ├── daily_sales.csv                 # Input
+│   ├── solution.py                     # Script
+│   ├── README.txt                      # Instructions
+│   └── region_sales.csv                # Output (generated)
+│
+├── Problem03_Attendance_Analysis/
+│   ├── create_input.py                 # Excel input generator
+│   ├── solution.py                     # Script
+│   ├── README.txt                      # Instructions
+│   ├── attendance.xlsx                 # Input (generated)
+│   └── attendance_report.xlsx          # Output (generated)
+│
+├── Problem04_Employee_Salary/
+│   ├── create_input.py                 # Excel input generator
+│   ├── solution.py                     # Script
+│   ├── README.txt                      # Instructions
+│   ├── emp_data.xlsx                   # Input (generated)
+│   └── emp_salary.xlsx                 # Output (generated)
+│
+├── Problem05_Inventory_Check/
+│   ├── inventory.csv                   # Input
+│   ├── solution.py                     # Script
+│   ├── README.txt                      # Instructions
+│   └── reorder_list.csv                # Output (generated)
+│
+├── Problem06_Exam_Result_Merge/
+│   ├── theory_marks.csv                # Input 1
+│   ├── lab_marks.csv                   # Input 2
+│   ├── solution.py                     # Script
+│   ├── README.txt                      # Instructions
+│   └── final_result.csv                # Output (generated)
+│
+├── Problem07_Expense_Tracker/
+│   ├── create_input.py                 # Excel input generator
+│   ├── solution.py                     # Script
+│   ├── README.txt                      # Instructions
+│   ├── expenses.xlsx                   # Input (generated)
+│   └── monthly_summary.xlsx            # Output (generated)
+│
+├── Problem08_Bus_Pass/
+│   ├── bus_pass_requests.csv           # Input
+│   ├── solution.py                     # Script
+│   ├── README.txt                      # Instructions
+│   ├── bus_pass_fare_list.csv          # Output 1 (generated)
+│   └── bus_pass_status.xlsx            # Output 2 (generated)
+│
+├── Problem09_Ecommerce_Returns/
+│   ├── create_input.py                 # Excel input generator
+│   ├── solution.py                     # Script
+│   ├── README.txt                      # Instructions
+│   ├── returns.xlsx                    # Input (generated)
+│   ├── returns_clean.csv               # Output 1 (generated)
+│   └── returns_error_log.xlsx          # Output 2 (generated)
+│
+└── Problem10_Electricity_Bill/
+    ├── meter_readings.csv              # Input
+    ├── solution.py                     # Script
+    ├── README.txt                      # Instructions
+    ├── bills.xlsx                      # Output 1 (generated)
+    └── billing_errors.csv              # Output 2 (generated)
+
+
+🚀 QUICK START GUIDE
+════════════════════
+
+STEP 1: Install Dependencies
+─────────────────────────────
+pip install openpyxl
+
+OR use requirements.txt:
+pip install -r requirements.txt
+
+
+STEP 2: Run Individual Problems
+────────────────────────────────
+
+For CSV-based problems (1, 2, 5, 6, 10):
+  cd Problem01_Student_Marks
+  python solution.py
+
+For Excel-based problems (3, 4, 7, 9):
+  cd Problem03_Attendance_Analysis
+  python create_input.py    # First generate Excel input
+  python solution.py         # Then run solution
+
+For Problem 8 (Mixed):
+  cd Problem08_Bus_Pass
+  python solution.py
+
+
+STEP 3: Test All Problems at Once
+──────────────────────────────────
+cd EL3
+./test_all.sh
+
+This will run all 10 problems and show pass/fail status.
+
+
+📋 PROBLEM DESCRIPTIONS
+═══════════════════════
+
+Problem 1: Student Marks Processing
+────────────────────────────────────
+Input:  students.csv (RollNo, Name, Math, Physics, Chemistry)
+Output: student_summary.csv (with Average and Pass/Fail)
+Logic:  Calculate average of 3 subjects, Pass if avg >= 40
+
+Problem 2: Sales Report Generation
+───────────────────────────────────
+Input:  daily_sales.csv (Date, Region, Sales)
+Output: region_sales.csv (Region-wise totals >= 50000)
+Logic:  Aggregate sales by region, filter >= 50000
+
+Problem 3: Attendance Analysis
+───────────────────────────────
+Input:  attendance.xlsx (RollNo, Name, ClassesHeld, ClassesAttended)
+Output: attendance_report.xlsx (with Percentage and Status)
+Logic:  Calculate %, mark 'Shortage' if < 75%
+
+Problem 4: Employee Salary Update
+──────────────────────────────────
+Input:  emp_data.xlsx (EmpID, Name, Department, BasicSalary)
+Output: emp_salary.xlsx (EmpID, Name, GrossSalary)
+Logic:  GrossSalary = Basic + HRA(10%) + DA(18%)
+
+Problem 5: Inventory Check
+───────────────────────────
+Input:  inventory.csv (ProductID, Name, Stock, ReorderLevel)
+Output: reorder_list.csv (Products where Stock < ReorderLevel)
+Logic:  Filter products needing reorder
+
+Problem 6: Exam Result Merge
+─────────────────────────────
+Input:  theory_marks.csv, lab_marks.csv
+Output: final_result.csv (merged with Total and Pass/Fail)
+Logic:  Merge by RollNo, Total = Theory + Lab, Pass if >= 40
+
+Problem 7: Monthly Expense Tracker
+───────────────────────────────────
+Input:  expenses.xlsx (Date, Category, Amount)
+Output: monthly_summary.xlsx (Category-wise totals)
+Logic:  Group by category and sum amounts
+
+Problem 8: Bus Pass Requests
+─────────────────────────────
+Input:  bus_pass_requests.csv (StudentID, Name, Distance)
+Output: bus_pass_fare_list.csv, bus_pass_status.xlsx
+Logic:  Fare calculation (0-5km: ₹400, 6-10km: ₹650, >10km: ₹900)
+
+Problem 9: E-Commerce Returns Validation
+─────────────────────────────────────────
+Input:  returns.xlsx (OrderID, CustomerName, RefundMode, Amount)
+Output: returns_clean.csv, returns_error_log.xlsx
+Logic:  Validate RefundMode in {UPI,CARD,WALLET} and Amount > 0
+
+Problem 10: Electricity Bill Calculator
+────────────────────────────────────────
+Input:  meter_readings.csv (MeterID, Name, Previous, Current)
+Output: bills.xlsx, billing_errors.csv
+Logic:  Units = Current - Previous, validate >= 0
+        Slabs: 0-100: ₹4/unit, 101-200: ₹6/unit, 201+: ₹8/unit
+
+
+🔧 TECHNICAL SPECIFICATIONS
+════════════════════════════
+
+Programming Language: Python 3.x
+Libraries Used:
+  - csv (built-in)
+  - openpyxl (external - for Excel handling)
+
+Code Style:
+  ✓ Simple and readable
+  ✓ Clear variable names
+  ✓ Basic loops and conditions
+  ✓ Minimal comments
+  ✓ No advanced OOP or functional programming
+  ✓ Suitable for college submission
+
+File Handling:
+  ✓ CSV using csv module
+  ✓ Excel using openpyxl
+  ✓ All outputs generated programmatically
+
+
+✅ VERIFICATION CHECKLIST
+═════════════════════════
+
+Before Submission:
+□ All 10 problem folders present
+□ Each folder has solution.py
+□ Each folder has README.txt
+□ Input files present or can be generated
+□ openpyxl installed
+□ Ran test_all.sh successfully
+□ All outputs generated correctly
+□ Code is clean and readable
+
+
+📝 NOTES FOR SUBMISSION
+═══════════════════════
+
+1. All code is ready to run without modification
+2. Input files with realistic sample data are provided
+3. Code follows academic standards (simple and clear)
+4. No external dependencies except openpyxl
+5. Each problem is self-contained in its folder
+6. Output files are created programmatically
+7. All logic is correct and tested
+
+
+🎓 ACADEMIC INTEGRITY
+═════════════════════
+
+This code is intended for educational purposes and college lab submission.
+The solutions follow the problem statements exactly and use basic Python
+concepts suitable for an introductory programming course.
+
+
+═══════════════════════════════════════════════════════════════════════════
+                            END OF SUBMISSION GUIDE
+═══════════════════════════════════════════════════════════════════════════

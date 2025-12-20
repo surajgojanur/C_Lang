@@ -1,0 +1,5 @@
+OrderID,CustomerName,RefundMode,Amount
+ORD001,Amit Gupta,UPI,1500
+ORD002,Neha Kapoor,CARD,2500
+ORD004,Divya Nair,WALLET,1200
+ORD008,Sanya Joshi,UPI,1800

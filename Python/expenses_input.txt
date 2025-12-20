@@ -1,0 +1,11 @@
+groceries, 45.60
+transport,12.00
+ 
+coffee,abc
+entertainment, 30
+invalidlinewithoutcomma
+rent, 800.00
+utilities, -50
+misc, 0
+snacks, 5.25, extra
+travel, 

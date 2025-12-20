@@ -1,0 +1,150 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║                  EL3 LAB - QUICK REFERENCE CARD                      ║
+║             UQ25CA651A – Programming with Python                    ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ INSTALLATION                                                         │
+└─────────────────────────────────────────────────────────────────────┘
+
+  pip install openpyxl
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ RUNNING PROBLEMS                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+
+  CSV Problems (1, 2, 5, 6):
+    cd EL3/Problem0X_Name
+    python solution.py
+
+  Excel Problems (3, 4, 7, 9):
+    cd EL3/Problem0X_Name
+    python create_input.py        ← First time only
+    python solution.py
+
+  Mixed Problem (8, 10):
+    cd EL3/Problem0X_Name
+    python solution.py
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ TESTING                                                              │
+└─────────────────────────────────────────────────────────────────────┘
+
+  Test All Problems:
+    cd EL3
+    ./test_all.sh
+
+  Detailed Verification:
+    cd EL3/..
+    python verify_all.py
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ PROBLEM QUICK LOOKUP                                                 │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌────┬─────────────────────────┬──────────┬────────────────────────┐
+│ #  │ Problem Name            │ Type     │ Key Logic              │
+├────┼─────────────────────────┼──────────┼────────────────────────┤
+│ 1  │ Student Marks           │ CSV      │ avg >= 40 → Pass       │
+│ 2  │ Sales Report            │ CSV      │ total >= 50000         │
+│ 3  │ Attendance              │ Excel    │ % < 75 → Shortage      │
+│ 4  │ Employee Salary         │ Excel    │ +10% HRA +18% DA       │
+│ 5  │ Inventory Check         │ CSV      │ Stock < Reorder        │
+│ 6  │ Exam Merge              │ CSV      │ Theory + Lab >= 40     │
+│ 7  │ Expense Tracker         │ Excel    │ Group by category      │
+│ 8  │ Bus Pass                │ CSV→Both │ Distance-based fare    │
+│ 9  │ Returns Validation      │ Excel→CSV│ Mode+Amount validation │
+│ 10 │ Electricity Bill        │ CSV→Both │ Slab-based billing     │
+└────┴─────────────────────────┴──────────┴────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ INPUT FILES BY PROBLEM                                               │
+└─────────────────────────────────────────────────────────────────────┘
+
+  P1:  students.csv
+  P2:  daily_sales.csv
+  P3:  attendance.xlsx (generated)
+  P4:  emp_data.xlsx (generated)
+  P5:  inventory.csv
+  P6:  theory_marks.csv, lab_marks.csv
+  P7:  expenses.xlsx (generated)
+  P8:  bus_pass_requests.csv
+  P9:  returns.xlsx (generated)
+  P10: meter_readings.csv
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ OUTPUT FILES BY PROBLEM                                              │
+└─────────────────────────────────────────────────────────────────────┘
+
+  P1:  student_summary.csv
+  P2:  region_sales.csv
+  P3:  attendance_report.xlsx
+  P4:  emp_salary.xlsx
+  P5:  reorder_list.csv
+  P6:  final_result.csv
+  P7:  monthly_summary.xlsx
+  P8:  bus_pass_fare_list.csv, bus_pass_status.xlsx
+  P9:  returns_clean.csv, returns_error_log.xlsx
+  P10: bills.xlsx, billing_errors.csv
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ COMMON ISSUES & SOLUTIONS                                            │
+└─────────────────────────────────────────────────────────────────────┘
+
+  ❌ ModuleNotFoundError: No module named 'openpyxl'
+  ✓  Run: pip install openpyxl
+
+  ❌ FileNotFoundError: [file].xlsx
+  ✓  For Excel problems, run create_input.py first
+
+  ❌ Permission denied
+  ✓  Check folder write permissions
+
+  ❌ Script doesn't run
+  ✓  Make sure you're in the problem folder (cd EL3/Problem0X_Name)
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ FILE STRUCTURE REMINDER                                              │
+└─────────────────────────────────────────────────────────────────────┘
+
+  EL3/
+  ├── Problem01_Student_Marks/
+  │   ├── students.csv           ← Input
+  │   ├── solution.py            ← Run this
+  │   └── README.txt
+  ├── Problem02_Sales_Report/
+  │   ├── daily_sales.csv        ← Input
+  │   ├── solution.py            ← Run this
+  │   └── README.txt
+  └── ... (8 more problems)
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ IMPORTANT NOTES                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+
+  • All code uses basic Python (suitable for beginners)
+  • No advanced features (OOP, lambdas, etc.)
+  • Input files have realistic sample data
+  • Outputs are generated automatically
+  • Each problem is independent
+  • Code is ready for submission as-is
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ DOCUMENTATION FILES                                                  │
+└─────────────────────────────────────────────────────────────────────┘
+
+  README.txt            - Master instructions
+  SUBMISSION_GUIDE.txt  - Detailed submission info
+  DELIVERABLES.txt      - Complete package overview
+  QUICK_REFERENCE.txt   - This file
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ DEPENDENCIES                                                         │
+└─────────────────────────────────────────────────────────────────────┘
+
+  Built-in:  csv, os, subprocess
+  External:  openpyxl (for Excel handling)
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                     EVERYTHING IS READY! ✓                           ║
+╚══════════════════════════════════════════════════════════════════════╝

@@ -1,0 +1,9 @@
+50
+200
+test
+999
+sample
+3.14
+777
+invalid
+88

@@ -1,0 +1,6 @@
+EMPTY	
+AMOUNT_INVALID	coffee,abc
+SPLIT_ERROR	invalidlinewithoutcomma
+AMOUNT_NEGATIVE	utilities, -50
+SPLIT_ERROR	snacks, 5.25, extra
+AMOUNT_INVALID	travel,

@@ -1,0 +1,6 @@
+ProductID,ProductName,Stock,ReorderLevel
+P001,Laptop,15,20
+P003,Keyboard,12,15
+P004,Monitor,8,10
+P006,Scanner,5,12
+P007,Webcam,18,25
