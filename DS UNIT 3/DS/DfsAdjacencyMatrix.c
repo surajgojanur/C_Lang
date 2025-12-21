@@ -1,43 +1,59 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
 
-/* Create graph using adjacency matrix */
-int **createGraph(int V)
-{
-    int **adjMatrix = (int **)malloc(V * sizeof(int *));
-    for (int i = 0; i < V; i++)
-    {
-        adjMatrix[i] = (int *)malloc(V * sizeof(int));
-    }
+typedef struct{
+	int numVertices;
+	int **adjMatrix;
+}Graph;
 
-    /* Initialize matrix to 0 */
-    for (int i = 0; i < V; i++)
-    {
-        for (int j = 0; j < V; j++)
-        {
-            adjMatrix[i][j] = 0;
-        }
-    }
+void CreateGraph(Graph *g,int vertices){
+	g->numVertices=vertices;
+	g->adjMatrix=malloc(vertices*sizeof(int *));
 
-    return adjMatrix;
+	if(g->adjMatrix == NULL){
+		printf("Memory allocation failed\n");
+		exit(1);
+	}
+	// for(int i=0;i<vertices;i++){
+    //     g->adjMatrix[i]=calloc(vertices, sizeof(int));
+    // }
+    
+	//initialzing to the 0
+	for(int i=0;i<vertices;i++){
+		for(int j=0;j<vertices;j++){
+			g->adjMatrix[i][j]=0;
+		}
+	}
 }
 
-/* Print graph */
-void printGraph(int **adjMatrix, int V)
-{
-    printf("\nAdjacency Matrix:\n");
-    for (int i = 0; i < V; i++)
-    {
-        for (int j = 0; j < V; j++)
-        {
-            printf("%d ", adjMatrix[i][j]);
-        }
-        printf("\n");
-    }
+void printGraph(Graph *g){
+	printf("The adjency Matrix is\n");
+
+	for(int i=0;i<g->numVertices;i++){
+		for(int j=0;j<g->numVertices;j++){
+			printf("%d ",g->adjMatrix[i][j]);
+		}
+		printf("\n");
+	}
 }
 
-/* DFS traversal */
+void addEdge(Graph *g,int src,int dest){
+	if(src >= 0 && src < g->numVertices && dest >=0 && dest < g->numVertices){
+	g->adjMatrix[src][dest]=1;
+	g->adjMatrix[dest][src]=1;
+	}else{
+	printf("Invalid Edges (%d %d)\n",src,dest);
+	}
+}
+
+void freeGraph(Graph *g){
+	for(int i=0;i<g->numVertices;i++){
+		free(g->adjMatrix[i]);
+	}
+	free(g->adjMatrix);
+}
+
 void dfs(int **adjMatrix, bool *visited, int node, int V)
 {
     visited[node] = true;
@@ -52,52 +68,48 @@ void dfs(int **adjMatrix, bool *visited, int node, int V)
     }
 }
 
-/* Free graph memory */
-void freeGraph(int **adjMatrix, int V)
-{
-    for (int i = 0; i < V; i++)
-    {
-        free(adjMatrix[i]);
-    }
-    free(adjMatrix);
-}
+int main(){
+	Graph g;
+	int vertices,edges;
 
-int main()
-{
-    int V, E;
-    int u, v;
+	printf("enter the number of vertices : ");
+	scanf("%d",&vertices);
 
-    printf("Enter number of vertices : ");
-    scanf("%d", &V);
+	CreateGraph(&g,vertices);
+	
 
-    printf("Enter number of edges : ");
-    scanf("%d", &E);
+	printf("Enter the nummber of edges : ");
+	scanf("%d",&edges);
+	printGraph(&g);
+	for(int i=0;i<edges;i++){
+		int u,v;
+		printf("Enter the edges %d(u,v)",i+1);
+		scanf("%d %d",&u,&v);
 
-    int **adjMatrix = createGraph(V);
+		addEdge(&g,u,v);
+	}
+	printGraph(&g);
 
-    bool *visited = (bool *)malloc(V * sizeof(bool));
-    for (int i = 0; i < V; i++)
-    {
-        visited[i] = false;
-    }
+    int start;
+    printf("Enter the start vertex for DFS: ");
+    scanf("%d", &start);
 
-    printf("Enter the edges (pairs of vertices u v):\n");
-    for (int i = 0; i < E; i++)
-    {
-        scanf("%d %d", &u, &v);
-        adjMatrix[u][v] = 1;        // directed graph
-        // adjMatrix[v][u] = 1;     // uncomment for undirected
+    bool *visited = calloc(vertices, sizeof(bool));
+    if (!visited) {
+        printf("Memory allocation failed\n");
+        freeGraph(&g);
+        return 1;
     }
 
-    printGraph(adjMatrix, V);
+    if (start >= 0 && start < vertices) {
+        printf("DFS traversal: ");
+        dfs(g.adjMatrix, visited, start, vertices);
+        printf("NULL\n");
+    } else {
+        printf("Invalid start vertex\n");
+    }
 
-    int startNode = 0;
-    printf("\nDFS Traversal starting from %d : ", startNode);
-    dfs(adjMatrix, visited, startNode, V);
-    printf("\n");
-
-    freeGraph(adjMatrix, V);
     free(visited);
-
+    freeGraph(&g);
     return 0;
 }
