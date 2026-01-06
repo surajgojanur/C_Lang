@@ -18,6 +18,8 @@ Node* createNode(int value){
     newNode->data=value;
     newNode->left=NULL;
     newNode->right=NULL;
+
+    return newNode;
 }
 
 Node* insert(Node* root,int value){
@@ -78,12 +80,26 @@ void InOrderTraversal(Node* root){
 int main(){
     Node* root = NULL;
     int values[] = {1,2,3,4,5};
-    int n=sizeof(values)/sizeof(values);
+    int n=sizeof(values)/sizeof(values[0]);
 
 
     printf("Inserting nodes : ");
     for(int i=0;i<n;i++){
         printf("%d ",values[i]);
         root = insert(root,values[i]);
-    }
+    }printf("\n\n");
+
+    printf("Preorder ( Root LEFT RIGHT)");
+    preOrderTraversal(root);
+    printf("\n");
+
+    printf("Inorder ( LEFT Root RIGHT)");
+    InOrderTraversal(root);
+    printf("\n");
+
+    printf("Postorder ( LEFT RIGHT  Root)");
+    postOrderTraversal(root);
+    printf("\n");
+
+    return 0;
 }
