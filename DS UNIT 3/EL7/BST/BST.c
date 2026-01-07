@@ -77,6 +77,65 @@ void InOrderTraversal(Node* root){
     InOrderTraversal(root->right);
 }
 
+
+
+void insertArray(int tree[], int *size, int value) {
+    if (*size >= 8) {
+        printf("Tree is full!\n");
+        return;
+    }
+    tree[(*size)++] = value; 
+}
+
+// Display for Array Representation
+// Source: [7]
+void displayArray(int tree[], int size) {
+    if (size == 0) {
+        printf("Tree is empty!\n");
+        return;
+    }
+    printf("Binary Tree (Level Order Array): "); 
+    for (int i = 0; i < size; i++) 
+        printf("%d ", tree[i]);
+    printf("\n");
+}
+
+int parent(int index) { 
+    return (index - 1) / 2; 
+}
+
+int leftChild(int index) { 
+    return 2 * index + 1; 
+}
+
+int rightChild(int index) { 
+    return 2 * index + 2; 
+}
+
+void displayNodeRelations(int tree[], int size, int index) {
+    if (index < 0 || index >= size) {
+        printf("Invalid index!\n");
+        return;
+    }
+    
+    printf("Node at index %d: %d\n", index, tree[index]);
+    
+    if (index > 0)
+        printf("  Parent: %d\n", tree[parent(index)]);
+    else 
+        printf("  Parent: None (Root)\n");
+
+    if (leftChild(index) < size)
+        printf("  Left Child: %d\n", tree[leftChild(index)]); 
+    else
+        printf("  Left Child: None\n");
+
+    if (rightChild(index) < size)
+        printf("  Right Child: %d\n", tree[rightChild(index)]);
+    else
+        printf("  Right Child: None\n");
+}
+
 int main(){
     Node* root = NULL;
     int values[] = {1,2,3,4,5};
@@ -100,6 +159,23 @@ int main(){
     printf("Postorder ( LEFT RIGHT  Root)");
     postOrderTraversal(root);
     printf("\n");
+
+    printf("=== ARRAY REPRESENTATION DEMO ===\n");
+    int tree[8];
+    int size = 0;
+
+    // Using the same values
+    for (int i = 0; i < n; i++) {
+        insertArray(tree, &size, values[i]);
+    }
+
+    displayArray(tree, size);
+    
+    printf("\nNode Relations:\n");
+    for(int i = 0; i < size; i++) {
+        displayNodeRelations(tree, size, i);
+        printf("---\n");
+    }
 
     return 0;
 }
