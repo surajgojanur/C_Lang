@@ -14,6 +14,7 @@ void printHeap(int heap[],int size){
     }
     printf("\n");
 }
+
 void upheapify(int heap[],int index){
     int parent=(index-1)/2;
     while(index > 0 && heap[parent] < heap[index]){
